@@ -1,0 +1,17 @@
+/*
+
+async.parallel([
+    function(callback) { //This is the first task, and `callback` is its callback task
+        db.save('xxx', 'a', function(err) {
+            //Now we have saved to the DB, so let's tell Async that this task is done
+            callback();
+        });
+    },
+    function(callback) { //This is the second task, and `callback` is its callback task
+        db.save('xxx', 'b', callback); //Since we don't do anything interesting in db.save()'s callback, we might as well just pass in the task callback
+    }
+], function(err) { //This is the final callback
+    console.log('Both a and b are saved now');
+});
+
+*/ 

@@ -1,0 +1,35 @@
+<% include partials/header %>
+<h1>DB!</h1>
+
+<!-- <script src="public/fescripts/DBTable.js" ></script> -->
+
+
+<!-- //var test =  JSON.stringify('<%= tableresult%>');
+    //var test = '<%= JSON.stringify(tableresult) %>'; -->
+ 
+    <!-- <% var test = tableresult %> -->
+    <script>
+        //var getTest = '<%= tableresult %>';
+        //Console.log('getTest: ' + getTest);
+        //document.write(JSON.stringify(tableresult));
+
+        var getTest = '<%= JSON.stringify(tableresult) %>';
+        document.write(getTest);
+    </script>
+
+ <br>
+
+<div>
+   <table class="table" id='dbtbl'>
+        <% for(var i = 0; i < tableresult.length; i++) { %>
+            <tr>
+                <td> <%= tableresult[i].MACID %> </td>
+                <td> <%= tableresult[i].Credit %> </td>
+                <td> <%= tableresult[i].SessionGUID %> </td>
+            </tr>
+      <%  } %>
+    </table>
+</div>
+
+
+

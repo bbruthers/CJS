@@ -1,0 +1,179 @@
+
+
+//ejs ***
+
+<!--<% function SumTotalCredits(arrTable) %>
+    var credit = 0.00;
+
+    for(var i = 0; i < arrTable.length; i++) {
+        credit = credit + arrTable[i].Credit;
+    }
+
+    var table = document.getElementById('dbtbl');
+    var tablefoot = document.createElement('tfoot');
+    var tfd = document.createElement('td');
+    var tfdn = document.createTextNode(credit);
+
+    tfd.appendChild(tfdn);
+    tablefoot.appendChild(tfd);
+    table.appendChild(tablefoot);
+
+<% } %> -->
+
+
+
+
+
+<!-- *************************************** -->
+
+<!--<% var testEJS = tableresult; %>
+<script>
+    var getTestEJS = '<%= tableresult %>';
+    document.write(getTestEJS);
+
+    var totalCredit;
+
+    var funcSumCredits = function(aTable) {
+        aTable.forEach(function(element) {
+            totalCredit = totalCredit + element.Credit;
+        });
+    }
+
+    funcSumCredits(getTestEJS);
+    document.write(totalCredit);
+</script> -->
+
+
+<!-- not currently working -->
+<!--<script>
+
+    var arrFromServer = '<% tableresult %>';
+    var totalCredit;
+
+    var funcSumCredits = function(aTable) {
+        aTable.forEach(function(element) {
+            totalCredit = totalCredit + element.Credit;
+        });
+    }
+
+    document.write(arrFromServer);
+    
+</script> -->
+
+//*****
+
+
+  <% include partials/header %>
+<h1>DB!</h1>
+
+<!-- <script src="public/fescripts/DBTable.js" ></script> -->
+
+<script>
+     //var test =  JSON.stringify('<%= tableresult%>');
+     var test = '<%= JSON.stringify(tableresult) %>';
+     document.write(test);
+
+     var test2 = '<%= tableresult %>';
+     Console.log('var test2: ' + test2);
+
+     CreateTable(test2);
+     
+     /*******************/
+
+     function CreateTable(arrData) {
+
+        Console.log('creating table...');
+
+    var jCol = [];
+    for(var i = 0; i < arrData,length; i++) {
+        for(var key in arrData[i]) {
+            if(jCol.indexOf(key) === -1) {
+                jCol.push(key);
+            }
+        }
+    }
+
+    var table = document.getElementsByTagName('table');
+
+    if (table === null) {
+        table = document.createElement('table');
+    }
+
+    var tr = table.insertRow(-1);
+
+    for(var i = 0; i < jCol.length; i++) {
+        var header = document.createElement('th');
+        th.innerHTML = jCol[i];
+        tr.appendChild(th);
+    }
+
+    //add json data to table as rows
+    for (var i = 0; i < arrData.length; i++) {
+        tr = table.insertRow(-1);
+
+        for(var j = 0; j < jCol.length; j++) {
+            var tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = arrData[i][jCol[j]];
+        }
+    }
+
+}
+
+     //document.createElement("br");
+     //document.write('---------------------------------------------');
+
+     //import {CreateTable} from 'DBTable';
+
+     //var test2 = '<%= tableresult %>';
+     //CreateTable(test2);
+     
+</script>
+
+
+
+
+  
+  ***********************************************************************
+  
+  // EXTRACT VALUE FOR HTML HEADER. 
+        // ('Book ID', 'Book Name', 'Category' and 'Price')
+        var col = [];
+        for (var i = 0; i < myBooks.length; i++) {
+            for (var key in myBooks[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // CREATE DYNAMIC TABLE.
+        var table = document.createElement("table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+        var tr = table.insertRow(-1);                   // TABLE ROW.
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < myBooks.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = myBooks[i][col[j]];
+            }
+        }
+
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    }
+</script>
+</html>
