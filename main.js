@@ -82,6 +82,18 @@ app.get('/map', function(request, response) {
     response.render('map');
 });
 
+//broken
+app.get('/async', function(request, response) {
+    var asyncfunc = require('./readfileasync');
+    var testResult = asyncfunc.ReadTxtFileAsync('/txt/async1txt.txt');
+    
+    console.log('RESULT: ' + testResult);
+    
+    response.writeHead(200, {'Content-Type': 'application/json'});
+    response.write(JSON.stringify(testResult));
+    response.end();
+});
+
 /** Listener **/
 app.listen(portNum, function() {
     console.log('server started on port ' + portNum);

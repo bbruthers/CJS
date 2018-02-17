@@ -5,6 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "@types/googlemaps": "^3.30.5",
+    "async": "^2.6.0",
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
