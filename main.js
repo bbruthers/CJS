@@ -26,6 +26,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
+    console.log('express.use ERROR HANDLER CALLED')
     console.error(err.stack);
     res.status(500).send();
 });
@@ -53,6 +54,7 @@ app.get('/dbp', function(request, reponse) {
 
     }).catch(function RejectedPromise(fromRejected) {
         console.log("TableResultPromise fromRejectged: " + fromRejected);
+        response.end();
     });
 });
 
@@ -86,12 +88,32 @@ app.get('/map', function(request, response) {
 app.get('/async', function(request, response) {
     var asyncfunc = require('./readfileasync');
     var testResult = asyncfunc.ReadTxtFileAsync('/txt/async1txt.txt');
+
+    if(testResult != undefined){
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.write(JSON.stringify(testResult));
+        response.end();
+    }
+    else {
+        console.log("REJECTED ASYNCRESULT: " + testResult);
+        response.writeHead(404, {'Content-Type': 'application/json'});
+        //response.write(JSON.stringify(testResult));
+        response.end();
+    }
+    /*testResult.then(function ResolvedAsync(fromResolved){
+        console.log('RESOLVED ASYNCRESULT: ' + fromResolved);
     
-    console.log('RESULT: ' + testResult);
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.write(JSON.stringify(fromResolved));
+        response.end();
+    }).catch(function RejectedAsync(fromRejected){
+        console.log("REJECTED ASYNCRESULT: " + fromRejected);
+        response.writeHead(404, {'Content-Type': 'application/json'});
+        response.write(JSON.stringify(fromRejected));
+        response.end();
+    }); */
     
-    response.writeHead(200, {'Content-Type': 'application/json'});
-    response.write(JSON.stringify(testResult));
-    response.end();
+    
 });
 
 /** Listener **/
