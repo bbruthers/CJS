@@ -58,6 +58,7 @@ app.get('/dbp', function(request, reponse) {
     });
 });
 
+//use for experiemnt
 app.get('/dbpjs', function(request, response) {
     var dbTest = require('./sqlpromise');
     
@@ -81,7 +82,27 @@ app.get('/dbpjs', function(request, response) {
 });
 
 app.get('/map', function(request, response) {
+    response.writeHead(200, {'Content-Type': 'text/html'});
     response.render('map');
+    response.end();
+});
+
+//test only
+app.get('/read', function(request, response){
+    var fs = require('fs');
+
+    fs.readFile(__dirname + '/txt/async1txt.txt', 'utf8',function(err, data) {
+        if(err) {
+            response.writeHead(404, {'Content-Type': 'application/json'});
+            response.write(JSON.stringify(err));
+            response.end();
+        }
+        else {
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.write(JSON.stringify(data));
+            response.end();
+        }
+    });
 });
 
 //broken
@@ -89,18 +110,7 @@ app.get('/async', function(request, response) {
     var asyncfunc = require('./readfileasync');
     var testResult = asyncfunc.ReadTxtFileAsync('/txt/async1txt.txt');
 
-    if(testResult != undefined){
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.write(JSON.stringify(testResult));
-        response.end();
-    }
-    else {
-        console.log("REJECTED ASYNCRESULT: " + testResult);
-        response.writeHead(404, {'Content-Type': 'application/json'});
-        //response.write(JSON.stringify(testResult));
-        response.end();
-    }
-    /*testResult.then(function ResolvedAsync(fromResolved){
+    testResult.then(function ResolvedAsync(fromResolved){
         console.log('RESOLVED ASYNCRESULT: ' + fromResolved);
     
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -111,9 +121,7 @@ app.get('/async', function(request, response) {
         response.writeHead(404, {'Content-Type': 'application/json'});
         response.write(JSON.stringify(fromRejected));
         response.end();
-    }); */
-    
-    
+    });
 });
 
 /** Listener **/
