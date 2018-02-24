@@ -108,19 +108,19 @@ app.get('/read', function(request, response){
 //broken
 app.get('/async', function(request, response) {
     var asyncfunc = require('./readfileasync');
-    var testResult = asyncfunc.ReadTxtFileAsync('/txt/async1txt.txt');
-
-    testResult.then(function ResolvedAsync(fromResolved){
-        console.log('RESOLVED ASYNCRESULT: ' + fromResolved);
-    
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.write(JSON.stringify(fromResolved));
-        response.end();
-    }).catch(function RejectedAsync(fromRejected){
-        console.log("REJECTED ASYNCRESULT: " + fromRejected);
-        response.writeHead(404, {'Content-Type': 'application/json'});
-        response.write(JSON.stringify(fromRejected));
-        response.end();
+    var testResult = asyncfunc.ReadTxtFileAsync('/txt/async1txt.txt', function(err, data){
+        if(err) {
+            console.log('responding with err');
+            response.writeHead(500, {'Content-Type': 'application/json'});
+            response.write(JSON.stringify(err));
+            response.end();
+        }
+        else {
+            console.log('SUCCESS!');
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.write(JSON.stringify(data));
+            response.end();
+        }
     });
 });
 
